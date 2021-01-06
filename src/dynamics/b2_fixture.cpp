@@ -29,6 +29,7 @@
 #include "box2d/b2_contact.h"
 #include "box2d/b2_edge_shape.h"
 #include "box2d/b2_polygon_shape.h"
+#include "box2d/b2_sdf_shape.h"
 #include "box2d/b2_world.h"
 
 b2Fixture::b2Fixture()
@@ -112,6 +113,14 @@ void b2Fixture::Destroy(b2BlockAllocator* allocator)
 			b2ChainShape* s = (b2ChainShape*)m_shape;
 			s->~b2ChainShape();
 			allocator->Free(s, sizeof(b2ChainShape));
+		}
+		break;
+
+	case b2Shape::e_sdf:
+		{
+			b2SDFShape* s = (b2SDFShape*)m_shape;
+			s->~b2SDFShape();
+			allocator->Free(s, sizeof(b2SDFShape));
 		}
 		break;
 
@@ -291,6 +300,15 @@ void b2Fixture::Dump(int32 bodyIndex)
 			b2Dump("    shape.CreateChain(vs, %d);\n", s->m_count);
 			b2Dump("    shape.m_prevVertex.Set(%.9g, %.9g);\n", s->m_prevVertex.x, s->m_prevVertex.y);
 			b2Dump("    shape.m_nextVertex.Set(%.9g, %.9g);\n", s->m_nextVertex.x, s->m_nextVertex.y);
+		}
+		break;
+	
+	case b2Shape::e_sdf:
+		{
+			b2SDFShape* s = (b2SDFShape*)m_shape;
+			b2Dump("    b2SDFShape shape;\n");
+			b2Dump("    shape.m_radius = %.9g;\n", s->m_radius);
+			b2Dump("    shape.m_p.Set(%.9g, %.9g);\n", s->m_p.x, s->m_p.y);
 		}
 		break;
 

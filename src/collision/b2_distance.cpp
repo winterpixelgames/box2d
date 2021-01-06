@@ -25,6 +25,7 @@
 #include "box2d/b2_edge_shape.h"
 #include "box2d/b2_chain_shape.h"
 #include "box2d/b2_polygon_shape.h"
+#include "box2d/b2_sdf_shape.h"
 
 // GJK using Voronoi regions (Christer Ericson) and Barycentric coordinates.
 B2_API int32 b2_gjkCalls, b2_gjkIters, b2_gjkMaxIters;
@@ -77,6 +78,16 @@ void b2DistanceProxy::Set(const b2Shape* shape, int32 index)
 			const b2EdgeShape* edge = static_cast<const b2EdgeShape*>(shape);
 			m_vertices = &edge->m_vertex1;
 			m_count = 2;
+			m_radius = edge->m_radius;
+		}
+		break;
+	
+	case b2Shape::e_sdf:
+		{
+			//TODO: figure out
+			const b2SDFShape* edge = static_cast<const b2SDFShape*>(shape);
+			m_vertices = &edge->m_p;
+			m_count = 1;
 			m_radius = edge->m_radius;
 		}
 		break;
