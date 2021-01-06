@@ -55,7 +55,8 @@ public:
 		e_edge = 1,
 		e_polygon = 2,
 		e_chain = 3,
-		e_typeCount = 4
+		e_sdf = 4,
+		e_typeCount = 5
 	};
 
 	virtual ~b2Shape() {}
