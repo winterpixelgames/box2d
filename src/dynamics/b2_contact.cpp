@@ -25,6 +25,7 @@
 #include "b2_circle_contact.h"
 #include "b2_contact_solver.h"
 #include "b2_edge_circle_contact.h"
+#include "b2_sdf_circle_contact.h"
 #include "b2_edge_polygon_contact.h"
 #include "b2_polygon_circle_contact.h"
 #include "b2_polygon_contact.h"
@@ -50,6 +51,7 @@ void b2Contact::InitializeRegisters()
 	AddType(b2EdgeAndPolygonContact::Create, b2EdgeAndPolygonContact::Destroy, b2Shape::e_edge, b2Shape::e_polygon);
 	AddType(b2ChainAndCircleContact::Create, b2ChainAndCircleContact::Destroy, b2Shape::e_chain, b2Shape::e_circle);
 	AddType(b2ChainAndPolygonContact::Create, b2ChainAndPolygonContact::Destroy, b2Shape::e_chain, b2Shape::e_polygon);
+	AddType(b2SDFAndCircleContact::Create, b2SDFAndCircleContact::Destroy, b2Shape::e_sdf, b2Shape::e_circle);
 }
 
 void b2Contact::AddType(b2ContactCreateFcn* createFcn, b2ContactDestroyFcn* destoryFcn,

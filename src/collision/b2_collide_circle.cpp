@@ -23,6 +23,7 @@
 #include "box2d/b2_collision.h"
 #include "box2d/b2_circle_shape.h"
 #include "box2d/b2_polygon_shape.h"
+#include "box2d/b2_sdf_shape.h"
 
 void b2CollideCircles(
 	b2Manifold* manifold,
@@ -155,4 +156,31 @@ void b2CollidePolygonAndCircle(
 		manifold->points[0].localPoint = circleB->m_p;
 		manifold->points[0].id.key = 0;
 	}
+}
+
+// Compute contact points for edge versus circle.
+// This accounts for edge connectivity.
+void b2CollideSDFAndCircle(b2Manifold* manifold,
+							const b2SDFShape* sdfA, const b2Transform& xfA,
+							const b2CircleShape* circleB, const b2Transform& xfB)
+{
+	manifold->pointCount = 0;
+
+	b2Vec2 pA = b2Mul(xfA, sdfA->m_p);
+	b2Vec2 pB = b2Mul(xfB, circleB->m_p);
+
+	printf("box2d pB:{%.1f, %.f1}\n", pB.x, pB.y);
+
+	float d = sdfA->m_map(pB);
+	if(d > circleB->m_radius) {
+		return;
+	}
+
+	manifold->type = b2Manifold::e_circles;
+	manifold->localPoint = sdfA->m_p;
+	manifold->localNormal.SetZero();
+	manifold->pointCount = 1;
+
+	manifold->points[0].localPoint = circleB->m_p;
+	manifold->points[0].id.key = 0;
 }

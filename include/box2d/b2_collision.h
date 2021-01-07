@@ -36,6 +36,7 @@ class b2Shape;
 class b2CircleShape;
 class b2EdgeShape;
 class b2PolygonShape;
+class b2SDFShape;
 
 const uint8 b2_nullFeature = UCHAR_MAX;
 
@@ -224,6 +225,11 @@ struct B2_API b2AABB
 /// Compute the collision manifold between two circles.
 B2_API void b2CollideCircles(b2Manifold* manifold,
 					  const b2CircleShape* circleA, const b2Transform& xfA,
+					  const b2CircleShape* circleB, const b2Transform& xfB);
+
+/// Compute the collision manifold between an sdf and a circle.
+B2_API void b2CollideSDFAndCircle(b2Manifold* manifold,
+					  const b2SDFShape* sdfA, const b2Transform& xfA,
 					  const b2CircleShape* circleB, const b2Transform& xfB);
 
 /// Compute the collision manifold between a polygon and a circle.
