@@ -66,9 +66,10 @@ public:
 inline b2SDFShape::b2SDFShape()
 {
 	m_type = e_sdf;
-	m_radius = 0.0f;
+	m_radius = b2_polygonRadius;
 	m_p.SetZero();
 	m_map = [](const b2Vec2& p) { 
+		b2Assert(false);  // should always be set by something else.
 		return p.Length(); // default single point?
 	};
 }
@@ -77,7 +78,7 @@ inline b2Vec2 b2SDFShape::Gradient(const b2Vec2& p) const
 {
 	const float EPS_N = 0.01; // TODO: figure out epsilon
 	return b2Vec2( m_map(b2Vec2(p.x+EPS_N, p.y)) - m_map(b2Vec2(p.x-EPS_N, p.y)),
-	 m_map(b2Vec2(p.x+EPS_N, p.y)) - m_map(b2Vec2(p.x-EPS_N, p.y)) );
+	 m_map(b2Vec2(p.x, p.y+EPS_N)) - m_map(b2Vec2(p.x, p.y-EPS_N)) );
 }
 
 #endif

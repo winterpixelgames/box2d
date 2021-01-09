@@ -169,16 +169,47 @@ void b2CollideSDFAndCircle(b2Manifold* manifold,
 	b2Vec2 pA = b2Mul(xfA, sdfA->m_p);
 	b2Vec2 pB = b2Mul(xfB, circleB->m_p);
 
-	printf("box2d pB:{%.1f, %.f1}\n", pB.x, pB.y);
+	printf("box2d radiusB:%.1f, pB:{%.1f, %.f1}\n", circleB->m_radius, pB.x, pB.y);
 
 	float d = sdfA->m_map(pB);
+
+	printf("box2d distance: %.1f\n", d);
+
 	if(d > circleB->m_radius) {
 		return;
 	}
 
+	// find point and normal along sdf edge, how, what direction to start?
+	// i think the gradient around circleB->m_p is OK direction to use?  -- i dont think will work for incorrect sdfs
+	// there may be situations that will not be accurate, but maybe we use that as a starting point?
+
+	// lets just start with a bunch of points around a circle surface
+	int minIndex = -1;
+	float minDist = FLT_MAX;
+	b2Vec2 minPos = b2Vec2_zero;
+	int count = 240.0;
+	for(int i =0 ; i < count; i++) {
+		b2Rot r = b2Rot(2.0*M_PI * ((float)i/(float)count));
+		b2Vec2 p = pB + b2Mul(r, b2Vec2(circleB->m_radius,0));
+		float pDist = sdfA->m_map(p);
+		printf("round: %i , dist: %.3f\n", i, pDist);
+		if(pDist < 0 && pDist < minDist) {
+			minIndex = i;
+			minDist = pDist;
+			minPos = p;
+		}
+	}
+	if(minIndex == -1) {
+		return;
+	}
+	b2Vec2 minNormal = sdfA->Gradient(minPos);
+	minNormal.Normalize();
+
 	manifold->type = b2Manifold::e_circles;
-	manifold->localPoint = sdfA->m_p;
-	manifold->localNormal.SetZero();
+	//manifold->localPoint = sdfA->m_p;   // actually we want this to be the point along the sdf edge..
+	//manifold->localNormal.SetZero();
+	manifold->localPoint = minPos;
+	manifold->localNormal = minNormal;
 	manifold->pointCount = 1;
 
 	manifold->points[0].localPoint = circleB->m_p;
