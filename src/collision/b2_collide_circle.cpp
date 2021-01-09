@@ -205,6 +205,9 @@ void b2CollideSDFAndCircle(b2Manifold* manifold,
 	b2Vec2 minNormal = sdfA->Gradient(minPos);
 	minNormal.Normalize();
 
+	minNormal = sdfA->Gradient(pB);
+	minNormal.Normalize();
+
 	manifold->type = b2Manifold::e_circles;
 	//manifold->localPoint = sdfA->m_p;   // actually we want this to be the point along the sdf edge..
 	//manifold->localNormal.SetZero();

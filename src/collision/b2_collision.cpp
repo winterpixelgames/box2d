@@ -51,6 +51,8 @@ void b2WorldManifold::Initialize(const b2Manifold* manifold,
 				normal.Normalize();
 			}
 
+			normal = b2Mul(xfA.q, manifold->localNormal); // try using sdf gradient
+
 			b2Vec2 cA = pointA + radiusA * normal;
 			b2Vec2 cB = pointB - radiusB * normal;
 			points[0] = 0.5f * (cA + cB);
