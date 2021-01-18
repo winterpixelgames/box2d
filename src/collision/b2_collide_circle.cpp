@@ -209,6 +209,7 @@ void b2CollideSDFAndCircle(b2Manifold* manifold,
 	minNormal.Normalize();
 
 	manifold->type = b2Manifold::e_circles;
+	manifold->sdfRadius = fabs(minDist); // maybe add b2Polygon radius?
 	//manifold->localPoint = sdfA->m_p;   // actually we want this to be the point along the sdf edge..
 	//manifold->localNormal.SetZero();
 	manifold->localPoint = minPos;

@@ -105,7 +105,7 @@ b2ContactSolver::b2ContactSolver(b2ContactSolverDef* def)
 		pc->localNormal = manifold->localNormal;
 		pc->localPoint = manifold->localPoint;
 		pc->pointCount = pointCount;
-		pc->radiusA = radiusA;
+		pc->radiusA = manifold->sdfRadius;
 		pc->radiusB = radiusB;
 		pc->type = manifold->type;
 
