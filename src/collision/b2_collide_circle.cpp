@@ -169,11 +169,11 @@ void b2CollideSDFAndCircle(b2Manifold* manifold,
 	b2Vec2 pA = b2Mul(xfA, sdfA->m_p);
 	b2Vec2 pB = b2Mul(xfB, circleB->m_p);
 
-	printf("box2d radiusB:%.1f, pB:{%.1f, %.f1}\n", circleB->m_radius, pB.x, pB.y);
+	//printf("box2d radiusB:%.1f, pB:{%.1f, %.f1}\n", circleB->m_radius, pB.x, pB.y);
 
 	float d = sdfA->m_map(pB);
 
-	printf("box2d distance: %.1f\n", d);
+	//printf("box2d distance: %.1f\n", d);
 
 	if(d > circleB->m_radius) {
 		return;
@@ -192,14 +192,14 @@ void b2CollideSDFAndCircle(b2Manifold* manifold,
 		b2Rot r = b2Rot(2.0*M_PI * ((float)i/(float)count));
 		b2Vec2 p = pB + b2Mul(r, b2Vec2(circleB->m_radius,0));
 		float pDist = sdfA->m_map(p);
-		printf("round: %i , dist: %.3f\n", i, pDist);
+		//printf("round: %i , dist: %.3f\n", i, pDist);
 		if(pDist < 0 && pDist < minDist) {
 			minIndex = i;
 			minDist = pDist;
 			minPos = p;
 		}
 	}
-	if(minIndex == -1) {
+	if(minIndex == -1) { // this can happen on small edge cases
 		return;
 	}
 	b2Vec2 minNormal = sdfA->Gradient(minPos);

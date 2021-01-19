@@ -76,7 +76,8 @@ inline b2SDFShape::b2SDFShape()
 
 inline b2Vec2 b2SDFShape::Gradient(const b2Vec2& p) const 
 {
-	const float EPS_N = 0.01; // TODO: figure out epsilon
+	//const float EPS_N = 0.01; // TODO: figure out epsilon
+	const float EPS_N = 1.00; // TODO: figure out epsilon
 	return b2Vec2( m_map(b2Vec2(p.x+EPS_N, p.y)) - m_map(b2Vec2(p.x-EPS_N, p.y)),
 	 m_map(b2Vec2(p.x, p.y+EPS_N)) - m_map(b2Vec2(p.x, p.y-EPS_N)) );
 }
