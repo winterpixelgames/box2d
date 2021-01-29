@@ -69,7 +69,7 @@ inline b2SDFShape::b2SDFShape()
 	m_radius = b2_polygonRadius;
 	m_p.SetZero();
 	m_map = [](const b2Vec2& p) { 
-		b2Assert(false);  // should always be set by something else.
+		
 		return p.Length(); // default single point?
 	};
 }
