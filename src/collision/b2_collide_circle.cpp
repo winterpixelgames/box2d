@@ -187,7 +187,8 @@ void b2CollideSDFAndCircle(b2Manifold* manifold,
 	int minIndex = -1;
 	float minDist = FLT_MAX;
 	b2Vec2 minPos = b2Vec2_zero;
-	int count = 240.0;
+	//int count = 240.0;
+	int count = 16;
 	for(int i =0 ; i < count; i++) {
 		b2Rot r = b2Rot(2.0*M_PI * ((float)i/(float)count));
 		b2Vec2 p = pB + b2Mul(r, b2Vec2(circleB->m_radius,0));
