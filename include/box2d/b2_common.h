@@ -110,7 +110,8 @@
 // Sleep
 
 /// The time that a body must be still before it will go to sleep.
-#define b2_timeToSleep				0.5f
+// changed for tank_kings
+#define b2_timeToSleep				0.07f 
 
 /// A body cannot sleep if its linear velocity is above this tolerance.
 #define b2_linearSleepTolerance		(0.01f * b2_lengthUnitsPerMeter)
