@@ -184,6 +184,9 @@ void b2CollideSDFAndCircle(b2Manifold* manifold,
 	// there may be situations that will not be accurate, but maybe we use that as a starting point?
 
 	// lets just start with a bunch of points around a circle surface
+	// We can do this in tank kings, as long as external field is correct withint a circle radius
+	
+	/*
 	int minIndex = -1;
 	float minDist = FLT_MAX;
 	b2Vec2 minPos = b2Vec2_zero;
@@ -203,11 +206,21 @@ void b2CollideSDFAndCircle(b2Manifold* manifold,
 	if(minIndex == -1) { // this can happen on small edge cases
 		return;
 	}
+	
 	b2Vec2 minNormal = sdfA->Gradient(minPos);
 	minNormal.Normalize();
+	*/
 
-	minNormal = sdfA->Gradient(pB);
+	b2Vec2 minNormal = sdfA->Gradient(pB);
+	//minNormal = sdfA->Gradient(pB);
 	minNormal.Normalize();
+
+	//b2Vec2 minPos = pB + ( circleB->m_radius * b2Vec2(-minNormal.x, -minNormal.y) );
+	b2Vec2 minPos = pB + ( circleB->m_radius * b2Vec2(-minNormal.x, -minNormal.y) );
+	float minDist = sdfA->m_map(minPos);
+	if(minDist >= 0) {
+		return;
+	}
 
 	manifold->type = b2Manifold::e_circles;
 	manifold->sdfRadius = fabs(minDist); // maybe add b2Polygon radius?
