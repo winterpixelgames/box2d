@@ -213,6 +213,8 @@ public:
 	/// Dump the world into the log file.
 	/// @warning this should be called outside of a time step.
 	void Dump();
+	
+	b2ContactManager m_contactManager;
 
 private:
 
@@ -228,8 +230,6 @@ private:
 
 	b2BlockAllocator m_blockAllocator;
 	b2StackAllocator m_stackAllocator;
-
-	b2ContactManager m_contactManager;
 
 	b2Body* m_bodyList;
 	b2Joint* m_jointList;
