@@ -381,6 +381,8 @@ public:
 	/// Get the parent world of this body.
 	b2World* GetWorld();
 	const b2World* GetWorld() const;
+	
+	b2ContactEdge* m_contactList;
 
 	/// Dump this body to a file
 	void Dump();
@@ -452,7 +454,6 @@ private:
 	int32 m_fixtureCount;
 
 	b2JointEdge* m_jointList;
-	b2ContactEdge* m_contactList;
 
 	float m_mass, m_invMass;
 
