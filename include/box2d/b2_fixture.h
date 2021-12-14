@@ -38,22 +38,22 @@ struct B2_API b2Filter
 {
 	b2Filter()
 	{
-		categoryBits = 0x0001;
-		maskBits = 0xFFFF;
+		categoryBits = 0x00000001;
+		maskBits = 0xFFFFFFFF;
 		groupIndex = 0;
 	}
 
 	/// The collision category bits. Normally you would just set one bit.
-	uint16 categoryBits;
+	uint32 categoryBits;
 
 	/// The collision mask bits. This states the categories that this
 	/// shape would accept for collision.
-	uint16 maskBits;
+	uint32 maskBits;
 
 	/// Collision groups allow a certain group of objects to never collide (negative)
 	/// or always collide (positive). Zero means no collision group. Non-zero group
 	/// filtering always wins against the mask bits.
-	int16 groupIndex;
+	int64_t groupIndex;
 };
 
 /// A fixture definition is used to create a fixture. This class defines an
