@@ -105,7 +105,7 @@ b2ContactSolver::b2ContactSolver(b2ContactSolverDef* def)
 		pc->localNormal = manifold->localNormal;
 		pc->localPoint = manifold->localPoint;
 		pc->pointCount = pointCount;
-		pc->radiusA = manifold->sdfRadius;
+		pc->radiusA = manifold->type == b2Manifold::e_sdf ? manifold->sdfRadius : radiusA;
 		pc->radiusB = radiusB;
 		pc->type = manifold->type;
 
@@ -629,6 +629,7 @@ struct b2PositionSolverManifold
 
 		switch (pc->type)
 		{
+		case b2Manifold::e_sdf:
 		case b2Manifold::e_circles:
 			{
 				b2Vec2 pointA = b2Mul(xfA, pc->localPoint);

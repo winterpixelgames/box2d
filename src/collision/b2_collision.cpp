@@ -37,6 +37,24 @@ void b2WorldManifold::Initialize(const b2Manifold* manifold,
 	case b2Manifold::e_circles:
 		{
 			normal.Set(1.0f, 0.0f);
+			b2Vec2 pointA = b2Mul(xfA, manifold->localPoint);
+			b2Vec2 pointB = b2Mul(xfB, manifold->points[0].localPoint);
+			if (b2DistanceSquared(pointA, pointB) > b2_epsilon * b2_epsilon)
+			{
+				normal = pointB - pointA;
+				normal.Normalize();
+			}
+			
+			b2Vec2 cA = pointA + radiusA * normal;
+			b2Vec2 cB = pointB - radiusB * normal;
+			points[0] = 0.5f * (cA + cB);
+			separations[0] = b2Dot(cB - cA, normal);
+		}
+		break;
+	
+	case b2Manifold::e_sdf:
+		{
+			normal.Set(1.0f, 0.0f);
 			
 			// for SDF i think we'll need something different, may only work with a single
 			// point
