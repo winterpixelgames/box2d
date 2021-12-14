@@ -102,6 +102,7 @@ struct B2_API b2Manifold
 	enum Type
 	{
 		e_circles,
+		e_sdf,
 		e_faceA,
 		e_faceB
 	};
