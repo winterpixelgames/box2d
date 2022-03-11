@@ -60,8 +60,8 @@ void b2SDFShape::ComputeAABB(b2AABB* aabb, const b2Transform& transform, int32 c
 
 	//TODO: can we?
 	//b2Vec2 p = transform.p + b2Mul(transform.q, m_p);
-	aabb->lowerBound.Set(FLT_MIN, FLT_MIN);
-	aabb->upperBound.Set(FLT_MAX, FLT_MAX);
+	aabb->lowerBound.Set(-10000000.0f, -10000000.0f);
+	aabb->upperBound.Set(10000000.0f, 10000000.0f);
 }
 
 void b2SDFShape::ComputeMass(b2MassData* massData, float density) const
