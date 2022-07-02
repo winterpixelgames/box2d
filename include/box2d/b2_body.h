@@ -67,6 +67,7 @@ struct B2_API b2BodyDef
 		type = b2_staticBody;
 		enabled = true;
 		gravityScale = 1.0f;
+		timeScale = 1.0f;
 	}
 
 	/// The body type: static, kinematic, or dynamic.
@@ -122,6 +123,8 @@ struct B2_API b2BodyDef
 
 	/// Scale the gravity applied to this body.
 	float gravityScale;
+
+	float timeScale;
 };
 
 /// A rigid body. These are created via b2World::CreateBody.
@@ -305,6 +308,10 @@ public:
 	/// Set the gravity scale of the body.
 	void SetGravityScale(float scale);
 
+	float GetTimeScale() const;
+
+	void SetTimeScale(float scale);
+
 	/// Set the type of this body. This may alter the mass and velocity.
 	void SetType(b2BodyType type);
 
@@ -463,6 +470,7 @@ private:
 	float m_linearDamping;
 	float m_angularDamping;
 	float m_gravityScale;
+	float m_timeScale;
 
 	float m_sleepTime;
 
@@ -614,6 +622,16 @@ inline float b2Body::GetGravityScale() const
 inline void b2Body::SetGravityScale(float scale)
 {
 	m_gravityScale = scale;
+}
+
+inline float b2Body::GetTimeScale() const
+{
+	return m_timeScale;
+}
+
+inline void b2Body::SetTimeScale(float scale)
+{
+	m_timeScale = scale;
 }
 
 inline void b2Body::SetBullet(bool flag)

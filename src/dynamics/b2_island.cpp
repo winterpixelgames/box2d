@@ -208,8 +208,8 @@ void b2Island::Solve(b2Profile* profile, const b2TimeStep& step, const b2Vec2& g
 		if (b->m_type == b2_dynamicBody)
 		{
 			// Integrate velocities.
-			v += h * b->m_invMass * (b->m_gravityScale * b->m_mass * gravity + b->m_force);
-			w += h * b->m_invI * b->m_torque;
+			v += h * b->m_timeScale * b->m_invMass * (b->m_gravityScale * b->m_mass * gravity + b->m_force);
+			w += h * b->m_timeScale * b->m_invI * b->m_torque;
 
 			// Apply damping.
 			// ODE: dv/dt + c * v = 0
@@ -218,8 +218,8 @@ void b2Island::Solve(b2Profile* profile, const b2TimeStep& step, const b2Vec2& g
 			// v2 = exp(-c * dt) * v1
 			// Pade approximation:
 			// v2 = v1 * 1 / (1 + c * dt)
-			v *= 1.0f / (1.0f + h * b->m_linearDamping);
-			w *= 1.0f / (1.0f + h * b->m_angularDamping);
+			v *= 1.0f / (1.0f + h * b->m_timeScale * b->m_linearDamping);
+			w *= 1.0f / (1.0f + h * b->m_timeScale * b->m_angularDamping);
 		}
 
 		m_positions[i].c = c;
@@ -279,6 +279,8 @@ void b2Island::Solve(b2Profile* profile, const b2TimeStep& step, const b2Vec2& g
 	// Integrate positions
 	for (int32 i = 0; i < m_bodyCount; ++i)
 	{
+		b2Body* b = m_bodies[i];
+
 		b2Vec2 c = m_positions[i].c;
 		float a = m_positions[i].a;
 		b2Vec2 v = m_velocities[i].v;
@@ -300,8 +302,8 @@ void b2Island::Solve(b2Profile* profile, const b2TimeStep& step, const b2Vec2& g
 		}
 
 		// Integrate
-		c += h * v;
-		a += h * w;
+		c += h * b->m_timeScale * v;
+		a += h * b->m_timeScale * w;
 
 		m_positions[i].c = c;
 		m_positions[i].a = a;
@@ -477,6 +479,8 @@ void b2Island::SolveTOI(const b2TimeStep& subStep, int32 toiIndexA, int32 toiInd
 	// Integrate positions
 	for (int32 i = 0; i < m_bodyCount; ++i)
 	{
+		b2Body* b = m_bodies[i];
+
 		b2Vec2 c = m_positions[i].c;
 		float a = m_positions[i].a;
 		b2Vec2 v = m_velocities[i].v;
@@ -498,8 +502,8 @@ void b2Island::SolveTOI(const b2TimeStep& subStep, int32 toiIndexA, int32 toiInd
 		}
 
 		// Integrate
-		c += h * v;
-		a += h * w;
+		c += h * b->m_timeScale * v;
+		a += h * b->m_timeScale * w;
 
 		m_positions[i].c = c;
 		m_positions[i].a = a;
