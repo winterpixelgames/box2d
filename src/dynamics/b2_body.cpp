@@ -83,6 +83,7 @@ b2Body::b2Body(const b2BodyDef* bd, b2World* world)
 	m_linearDamping = bd->linearDamping;
 	m_angularDamping = bd->angularDamping;
 	m_gravityScale = bd->gravityScale;
+	m_timeScale = bd->timeScale;
 
 	m_force.SetZero();
 	m_torque = 0.0f;
