@@ -223,6 +223,9 @@ private:
 	friend class b2ContactManager;
 	friend class b2Controller;
 
+	b2World(const b2World&) = delete;
+	void operator=(const b2World&) = delete;
+
 	void Solve(const b2TimeStep& step);
 	void SolveTOI(const b2TimeStep& step);
 
