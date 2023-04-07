@@ -94,6 +94,10 @@ public:
 	/// Called when two fixtures cease to touch.
 	virtual void EndContact(b2Contact* contact) { B2_NOT_USED(contact); }
 
+	/// Called every frame when two fixtures are touching and at least one of them
+	/// is a sensor.
+	virtual void SensorTouching(b2Contact* contact) { B2_NOT_USED(contact); }
+
 	/// This is called after a contact is updated. This allows you to inspect a
 	/// contact before it goes to the solver. If you are careful, you can modify the
 	/// contact manifold (e.g. disable contact).
