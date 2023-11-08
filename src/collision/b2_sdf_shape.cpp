@@ -49,9 +49,27 @@ bool b2SDFShape::RayCast(b2RayCastOutput* output, const b2RayCastInput& input,
 							const b2Transform& transform, int32 childIndex) const
 {
 	B2_NOT_USED(childIndex);
-
-	//TODO: figure out
-	return true;
+	b2Vec2 ray_vector = input.maxFraction * (input.p2 - input.p1);
+	b2Vec2 ray_direction = ray_vector;
+	float ray_total_distance = ray_direction.Normalize();
+	float ray_total_distance_sq = ray_total_distance * ray_total_distance;
+	b2Vec2 ray_end = input.p1 + ray_vector;
+	
+	b2Vec2 point = input.p1;
+	while (true) {
+		float sdf_result = m_map(point);
+		if (sdf_result < 1.0) {
+			output->fraction = (point - input.p1).Length() / (input.p2 - input.p1).Length();
+			output->normal = b2Vec2(0.0f, 1.0f); // todo
+			return true;
+		}
+		point = point + sdf_result * ray_direction;
+		float distance_from_start = (point - input.p1).Length();
+		if (distance_from_start >= ray_total_distance) {
+			break;
+		}
+	}
+	return false;
 }
 
 void b2SDFShape::ComputeAABB(b2AABB* aabb, const b2Transform& transform, int32 childIndex) const
