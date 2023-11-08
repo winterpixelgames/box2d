@@ -58,7 +58,7 @@ bool b2SDFShape::RayCast(b2RayCastOutput* output, const b2RayCastInput& input,
 	b2Vec2 point = input.p1;
 	while (true) {
 		float sdf_result = m_map(point);
-		if (sdf_result < 1.0) {
+		if (sdf_result < 0.1) {
 			output->fraction = (point - input.p1).Length() / (input.p2 - input.p1).Length();
 			output->normal = b2Vec2(0.0f, 1.0f); // todo
 			return true;
