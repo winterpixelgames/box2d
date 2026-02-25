@@ -3,6 +3,8 @@
 
 #pragma once
 
+#define BOX2D_DISABLE_SIMD
+
 #include "box2d/math_functions.h"
 
 // clang-format off
