@@ -10,3 +10,4 @@ CMakeUserPresets.json
 .idea/
 *.o
 *.bc
+*.d
