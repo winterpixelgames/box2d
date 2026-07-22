@@ -103,9 +103,15 @@ void b2UnlockMutex( b2Mutex* m )
 
 uint64_t b2GetTicks( void )
 {
+#if defined( __EMSCRIPTEN__ )
+	// clock_gettime crosses the wasm->JS boundary on every call, and these ticks
+	// only feed b2Profile, which the web build never reads.
+	return 0;
+#else
 	struct timespec ts;
 	clock_gettime( CLOCK_MONOTONIC, &ts );
 	return ts.tv_sec * 1000000000LL + ts.tv_nsec;
+#endif
 }
 
 float b2GetMilliseconds( uint64_t ticks )
